@@ -47,11 +47,11 @@ pub(crate) fn show(app: &mut PatcherApp, ctx: &egui::Context) {
                             app.start_file_request(PendingFileKind::Bootloader, ctx);
                         }
 
-                        ui.separator();
+                        //ui.separator();
 
-                        if ui.button("Backup").clicked() {
-                            app.start_file_request(PendingFileKind::Backup, ctx);
-                        }
+                        //if ui.button("Backup").clicked() {
+                        //    app.start_file_request(PendingFileKind::Backup, ctx);
+                        //}
                     });
 
                     ui.separator();
@@ -65,7 +65,6 @@ pub(crate) fn show(app: &mut PatcherApp, ctx: &egui::Context) {
                     if ui.selectable_label(app.show_supported_patches, "Supported Patches").clicked() {
                         app.show_supported_patches = !app.show_supported_patches;
                     }
-
                 }
             });
         });
@@ -97,7 +96,7 @@ pub(crate) fn show(app: &mut PatcherApp, ctx: &egui::Context) {
 
                     load_button(ui, "Load Firmware", PendingFileKind::Firmware);
                     load_button(ui, "Load Bootloader", PendingFileKind::Bootloader);
-                    load_button(ui, "Load Backup", PendingFileKind::Backup);
+                    //load_button(ui, "Load Backup", PendingFileKind::Backup);
 
                     // ── View items ───────────────────────────────
                     ui.add_space(4.0);

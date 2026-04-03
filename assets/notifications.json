@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "id": "backup-editing-disabled",
+    "message": "Editing Backups is disabled for now, fix coming in a day"
+  }
+]
