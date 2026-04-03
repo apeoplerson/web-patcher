@@ -1,0 +1,11 @@
+{
+  "board": "PintX",
+  "bootloaders": [
+    {
+      "version": 7,
+      "sram_free_start": "0x20001220",
+      "hash": "99bad1ac7098d93681659088f7c57076e98b3758",
+      "partial_hash": "63ace3a05b524f730574834c7924689200bc4804"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "board": "GTS",
+  "bootloaders": [
+    {
+      "version": 4,
+      "sram_free_start": "0x20003580",
+      "hash": "2931fa0c9f96228c72364c0549833fb1910a4556",
+      "partial_hash": "916ef728449a24f38c531738dc5ce580b2dd193a"
+    }
+  ]
+}

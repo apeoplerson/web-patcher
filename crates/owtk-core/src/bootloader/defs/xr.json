@@ -1,0 +1,29 @@
+{
+  "board": "XR",
+  "bootloaders": [
+    {
+      "version": 3,
+      "sram_free_start": "0x20000858",
+      "hash": "40279a65b196d7917e3ef472de5addfd5c4b5985",
+      "partial_hash": "e5516c854029ccbf2221e9cf494dae250c0cb4f4"
+    },
+    {
+      "version": 4,
+      "sram_free_start": "0x20000860",
+      "hash": "1bbe491224f07f2924b76a52dcdb55a7b2ce0764",
+      "partial_hash": "b3de0ba9b933ca805a3eb307ed0a4d240c1a5c55"
+    },
+    {
+      "version": 6,
+      "sram_free_start": "0x20000A20",
+      "hash": "71171b48e34a9e55be2b3fcdc6c9686748b3d153",
+      "partial_hash": "d1c9953b539014c2c27d09b9cf7179fa7f725057"
+    },
+    {
+      "version": 9,
+      "sram_free_start": "0x20000A20",
+      "hash": "3be522b9f17b2b7e9ae2f4ea49ba91f98237d0e6",
+      "partial_hash": "d1c9953b539014c2c27d09b9cf7179fa7f725057"
+    }
+  ]
+}

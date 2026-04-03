@@ -1,0 +1,38 @@
+{
+  "board": "PintX",
+  "firmwares": [
+    {
+      "version": 5076,
+      "encrypted_hash": "e277ea2456e40787106f2a86604d1199af53b01e",
+      "decrypted_hash": "57a6bb34e7290bfb2305aee15a8d5260191f6a64",
+      "decrypted_partial_hash": "88d9d1f6f1789540da75e2e95d034d88df6dd42b",
+      "sram_free_start": "0x200024E9",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 5100,
+      "encrypted_hash": "c8a9b0bb3aca81b5a6f6c35f76b24ce032ec244f",
+      "decrypted_hash": "9024145eba3fd43e59148b2cf75bb2fe2873e7a4",
+      "decrypted_partial_hash": "d4cd0241d8f2e744667ce6a2106cb58ea57364be",
+      "sram_free_start": "0x20002929",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 5200,
+      "encrypted_hash": "e3d68515e69a6190dccfdb6f81cce8b7e04e267f",
+      "decrypted_hash": "9a0700bd4b0c2871220de0cf8f6d286df7734853",
+      "decrypted_partial_hash": "a4aec7519214d682242bd82a3be2e6c11d4fc666",
+      "sram_free_start": "0x20002991",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    }
+  ]
+}

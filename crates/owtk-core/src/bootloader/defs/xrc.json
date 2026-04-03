@@ -1,0 +1,11 @@
+{
+  "board": "XRC",
+  "bootloaders": [
+    {
+      "version": 5,
+      "sram_free_start": "0x20003588",
+      "hash": "d38d2d35567c5708feb16c6245ebf15a1b43498a",
+      "partial_hash": "5fe9a4a54ffc538abbef349df236d25c0e5c84e9"
+    }
+  ]
+}

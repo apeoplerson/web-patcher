@@ -1,0 +1,71 @@
+{
+  "board": "XR",
+  "firmwares": [
+    {
+      "version": 4020,
+      "encrypted_hash": "d156487fdac68a0f30595d2ad081c63610fffdbd",
+      "decrypted_hash": "7f1279d2ca506e4579ada82f85d58e8d1eca4e84",
+      "decrypted_partial_hash": "a9d4de73b9b9b165118a4ab3979c7c8b6f6cabb9",
+      "sram_free_start": "0x20001F79",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 4034,
+      "encrypted_hash": "50f3d6c28e3778888ac937461a6aa009496d7cfd",
+      "decrypted_hash": "4013708e71f94dbd94bd4908707f9de8752d6f39",
+      "decrypted_partial_hash": "19c0fab47633f6b02a46bd331ea1f379597dd305",
+      "sram_free_start": "0x20002429",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 4107,
+      "encrypted_hash": "e6f64564d290093e2bd2704cb145eb127edbd9d6",
+      "decrypted_hash": "98a1af39b23d8b4f8c9fba8c6f142314e608ae2a",
+      "decrypted_partial_hash": "a8573e7e69f8cfcc6307c24aa21aaacf24893019",
+      "sram_free_start": "0x20001FD9",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 4134,
+      "encrypted_hash": "4eae3c9dc79fde033c9bb6bbc71f695fc2d2873f",
+      "decrypted_hash": "5d964b5b5e93b8f9faef00f90e0d4c9e1b44b5d5",
+      "decrypted_partial_hash": "19c0fab47633f6b02a46bd331ea1f379597dd305",
+      "sram_free_start": "0x20002429",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 4142,
+      "encrypted_hash": "97b5df402212dcf56d25eb4b7c353510c9654d85",
+      "decrypted_hash": "41c1a8e888360cb39d396787de980dd019cfeaad",
+      "decrypted_partial_hash": "1d995d24561d0ba7b08a76937d1dc172b644e0bf",
+      "sram_free_start": "0x20002449",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 4165,
+      "encrypted_hash": "0fc6afd7859380eab097bb7e63512769dcc4e91b",
+      "decrypted_hash": "5986d092a0a914f594f15cbe6ca85e5d88a8e8aa",
+      "decrypted_partial_hash": "5b1e47cae3b15be43ca6c9396dbb29ff7a8d4409",
+      "sram_free_start": "0x20002519",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    }
+  ]
+}

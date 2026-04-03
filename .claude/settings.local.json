@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cargo check:*)",
+      "Bash(cargo build)",
+      "Bash(cargo check)",
+      "Bash(cargo t)",
+      "Bash(cargo build --target wasm32-unknown-unknown)",
+      "Bash(cargo clean -p owtk_patcher)"
+    ]
+  }
+}

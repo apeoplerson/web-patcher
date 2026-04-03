@@ -1,0 +1,181 @@
+{
+  "board": "GT",
+  "firmwares": [
+    {
+      "version": 6011,
+      "encrypted_hash": "686d0ffc7fd56534d3ffd4e890b96b1a4e91cb46",
+      "decrypted_hash": "53ab15f2a66655114956e98b42956995f9eeac05",
+      "decrypted_partial_hash": "716680067fa5032b10a5ad1a80f34ac43313e724",
+      "sram_free_start": "0x20004979",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6012,
+      "encrypted_hash": "91f965968f34a540280d5d8ba06d744b77da1cfe",
+      "decrypted_hash": "52a5fd6f3d402deac0df9505593b9c6ce8fdc12b",
+      "decrypted_partial_hash": "d40acde4fce8c8578e58a7f9373f759b30420f9a",
+      "sram_free_start": "0x20004979",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6018,
+      "encrypted_hash": "aea89163987afda9310e06ca4c258101dd0bbf00",
+      "decrypted_hash": "0852dd05d4461748b73023edebb3bba45fb2d446",
+      "decrypted_partial_hash": "4feefcd551dce79e4c508c5ee0138959a5b9b178",
+      "sram_free_start": "0x20004979",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6053,
+      "encrypted_hash": "c9104764b7d2c2402f62ada3362ba23a9f60c506",
+      "decrypted_hash": "3bc8a163d823240412a1cbf9db6c5c798b31d06b",
+      "decrypted_partial_hash": "c2170078366d6b41b81b119e2a15bb9b0474c6dc",
+      "sram_free_start": "0x20004B81",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6085,
+      "encrypted_hash": "58e5f223565bd43cccf2c2cca0e6b7af7ae81896",
+      "decrypted_hash": "ced15be95e2e1d2b1ca89e282bbef14e0f65fb8f",
+      "decrypted_partial_hash": "df581e7099d4094f8de4f76d073aea8ba80b55e3",
+      "sram_free_start": "0x20004B99",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6086,
+      "encrypted_hash": "68bb26b540143a07176b526e1fda08af3dac4644",
+      "decrypted_hash": "da298bc68259c88490fcdabf18021e8c6330b9ab",
+      "decrypted_partial_hash": "df581e7099d4094f8de4f76d073aea8ba80b55e3",
+      "sram_free_start": "0x20004B99",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6089,
+      "encrypted_hash": "1d67acc87b79d82488fb6c0dca6f2b89c6ee52a2",
+      "decrypted_hash": "2074ac6dd26a4b635a3555ff76338ff8bb1eb286",
+      "decrypted_partial_hash": "3ab2140d59c906eaf9e21e99592ddd44d6457166",
+      "sram_free_start": "0x20004B99",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6091,
+      "encrypted_hash": "5300392cb3798405d469112314522a32d429d628",
+      "decrypted_hash": "6e787128f02bebb13e2ec0ca21fb0dfd7d5dc2f4",
+      "decrypted_partial_hash": "f2116af180f10f6a53a54a733b63f4f0a812aa15",
+      "sram_free_start": "0x20004B99",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6093,
+      "encrypted_hash": "3ae02830df68ad2d10131ac0f942acccfe8fbd86",
+      "decrypted_hash": "2b476898e85655eb8987ca0a0e0d1e474018abc0",
+      "decrypted_partial_hash": "2b786a4e548d96b46ed02070c365c6dac7057936",
+      "sram_free_start": "0x20004B99",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6100,
+      "encrypted_hash": "1726246cfff9921d77a2a0980d72381c23d06023",
+      "decrypted_hash": "26cd396a597ece0d45707010e3eedef67e85678c",
+      "decrypted_partial_hash": "2b786a4e548d96b46ed02070c365c6dac7057936",
+      "sram_free_start": "0x20004B99",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6109,
+      "encrypted_hash": "5568c7f2015f9988f222b1c9502b8506de43f518",
+      "decrypted_hash": "15506ec11d936139b4bd9bb61d8fcc7f8e77553f",
+      "decrypted_partial_hash": "c9ffb0a292c1f8c867bf6b4d48abb085fedce247",
+      "sram_free_start": "0x20004B99",
+      "crypto": {
+        "method": "AesCTR128",
+        "key_hash": "75c88aa944d3508f985058a389d1ead4ffa03a1c",
+        "iv_hash": "14ad78f4d9805cf8fe8cf3ac970f7d59b9fb651c"
+      }
+    },
+    {
+      "version": 6153,
+      "encrypted_hash": "88083804ef0a8d781a1ea801ff8eaea692247667",
+      "decrypted_hash": "2801241a972acef87f1542e42341a00bd79c8bf0",
+      "decrypted_partial_hash": "08b195cdc16f0039b1289ba9d51c28503bb77f1f",
+      "sram_free_start": "0x20004DE1",
+      "crypto": {
+        "method": "AesCTR128DynIv",
+        "key_hash": "3d00c1c9b3513c059723acdf66de670fa1967bf9"
+      }
+    },
+    {
+      "version": 6167,
+      "encrypted_hash": "8ba6979219bb9e882bc12a8443f76c72b09c08bb",
+      "decrypted_hash": "5215e79f42dd4258ed463b1783978610399a0445",
+      "decrypted_partial_hash": "6bddbb4e7565b6509e9ad7a40a680c762bd1d29a",
+      "sram_free_start": "0x20004E91",
+      "crypto": {
+        "method": "AesCTR128DynIv",
+        "key_hash": "3d00c1c9b3513c059723acdf66de670fa1967bf9"
+      }
+    },
+    {
+      "version": 6208,
+      "encrypted_hash": "4bc60f44a0573e5eb0d2696be16cbd226151932c",
+      "decrypted_hash": "81b8b327cfb5e774ca632a35ca372d42abe95a7a",
+      "decrypted_partial_hash": "d592978b574c9ddce7ad10651968d6426d88999b",
+      "sram_free_start": "0x20004F11",
+      "crypto": {
+        "method": "AesCTR128DynIv",
+        "key_hash": "3d00c1c9b3513c059723acdf66de670fa1967bf9"
+      }
+    },
+    {
+      "version": 6210,
+      "encrypted_hash": "c0ea93c2acc3ad2fddb486246f2540406138fc9b",
+      "decrypted_hash": "6ac9cfbdf46e664db00b3f904ca2fa19abafab8a",
+      "decrypted_partial_hash": "64f7c59ba6b35e235ec9ac03425cb64ccbb77f4b",
+      "sram_free_start": "0x20004F11",
+      "crypto": {
+        "method": "AesCTR128DynIv",
+        "key_hash": "3d00c1c9b3513c059723acdf66de670fa1967bf9"
+      }
+    }
+  ]
+}

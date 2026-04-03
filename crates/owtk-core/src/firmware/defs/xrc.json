@@ -1,0 +1,27 @@
+{
+  "board": "XRC",
+  "firmwares": [
+    {
+      "version": 6200,
+      "encrypted_hash": "0022a4752efb66fd8899c3a8b4ce5100ede18e55",
+      "decrypted_hash": "5a3a5f8fa8c99c830648119e84c5468646bda08b",
+      "decrypted_partial_hash": "0ca568d0f826df7c38778b2acb2910b990aa4088",
+      "sram_free_start": "0x20004EC9",
+      "crypto": {
+        "method": "AesCTR128DynIv",
+        "key_hash": "e8fd6b23e5b691fcfb823dced209beddc50926ff"
+      }
+    },
+    {
+      "version": 6213,
+      "encrypted_hash": "d3a4a02fff402b5c30a5372c6f48c4fdf58041c6",
+      "decrypted_hash": "70f232313fd53bae2e1dbc6e756609aa275c8168",
+      "decrypted_partial_hash": "a77666e52c30a59dea474df0b7515d81f64ec771",
+      "sram_free_start": "0x20004F11",
+      "crypto": {
+        "method": "AesCTR128DynIv",
+        "key_hash": "e8fd6b23e5b691fcfb823dced209beddc50926ff"
+      }
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "board": "GTS",
+  "firmwares": [
+    {
+      "version": 6164,
+      "encrypted_hash": "fc6a886533f54bd56f3a34741604c87b7bde2905",
+      "decrypted_hash": "8397df889bec09669208d580169c3950a6d03bef",
+      "decrypted_partial_hash": "a6b1a20e3e04e6d1d21baf12d24cf8abea168ab0",
+      "sram_free_start": "0x20004E71",
+      "crypto": {
+        "method": "AesCTR128DynIv",
+        "key_hash": "3f41179e2245423f49b58ff3790b0c560eb49e9d"
+      }
+    },
+    {
+      "version": 6167,
+      "encrypted_hash": "c9d6c1c97b97b7f6197616254c6d4060279a0ef3",
+      "decrypted_hash": "46e4cb626878ce59f94a7ae7458dadb260ec6529",
+      "decrypted_partial_hash": "9bda82b413d2d3f74e712987a3fc3fa6f2bfdb76",
+      "sram_free_start": "0x20004E91",
+      "crypto": {
+        "method": "AesCTR128DynIv",
+        "key_hash": "3f41179e2245423f49b58ff3790b0c560eb49e9d"
+      }
+    },
+    {
+      "version": 6208,
+      "encrypted_hash": "500fc1db5d9a5766d2cdc89d06056761ae402934",
+      "decrypted_hash": "338238d1d99f673399c1bf532db2eec5296b81c2",
+      "decrypted_partial_hash": "9ae91a790d901421ea59b0c3179ad84ef764b36a",
+      "sram_free_start": "0x20004F01",
+      "crypto": {
+        "method": "AesCTR128DynIv",
+        "key_hash": "3f41179e2245423f49b58ff3790b0c560eb49e9d"
+      }
+    }
+  ]
+}

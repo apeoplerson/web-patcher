@@ -1,0 +1,7 @@
+max_width = 120
+# group_imports and imports_granularity require nightly rustfmt;
+# uncomment when running `cargo +nightly fmt`.
+# group_imports = "StdExternalCrate"
+# imports_granularity = "Module"
+
+use_small_heuristics = "Max"

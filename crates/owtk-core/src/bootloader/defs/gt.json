@@ -1,0 +1,23 @@
+{
+  "board": "GT",
+  "bootloaders": [
+    {
+      "version": 1,
+      "sram_free_start": "0x20003568",
+      "hash": "66a6fb96ca4fb5f8564f82b98e4102c808b17cc9",
+      "partial_hash": "baabc3f02636f74cc55d48dbde0d22ee8e8a95f3"
+    },
+    {
+      "version": 2,
+      "sram_free_start": "0x20003568",
+      "hash": "ab11c03b325c74047f2fd97ee3b4884b8d264317",
+      "partial_hash": "aa872764534e41ca54be1b35424130b701b454f5"
+    },
+    {
+      "version": 3,
+      "sram_free_start": "0x20003580",
+      "hash": "a100a41b29df9ef69c6caf0f85c241ae0c366e16",
+      "partial_hash": "f672e1b288ea59557a721d71bc84b405e8ce9042"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+[build]
+target = "wasm32-unknown-unknown"
+
+# The default build target is wasm32, which cannot execute tests natively.
+# Use `cargo t` as a shorthand for `cargo test --target x86_64-pc-windows-msvc`.
+[alias]
+t = "test --target x86_64-pc-windows-msvc"

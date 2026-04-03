@@ -1,0 +1,60 @@
+{
+  "board": "Pint",
+  "firmwares": [
+    {
+      "version": 5040,
+      "encrypted_hash": "09affd3ea2f029607b3b2e9fafe538ea972d7382",
+      "decrypted_hash": "c32a7a84dd4e95222346ca0ad355c88487e9e929",
+      "decrypted_partial_hash": "8c7d4dd58cd5c2f05b434173778e9aee04729bbc",
+      "sram_free_start": "0x20002449",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 5069,
+      "encrypted_hash": "407679d9b2819e9d1ec96165d43f456384c08b5b",
+      "decrypted_hash": "36111c99834783c3935a419fd0a340b6500905be",
+      "decrypted_partial_hash": "211ccde598293bd56fe9dda466fe3f108063eb43",
+      "sram_free_start": "0x200024E9",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 5100,
+      "encrypted_hash": "b0c35c5960b08fd24209cbb2478cefd762176205",
+      "decrypted_hash": "7e0713ebadf70d7842cdd2c5891d701e926ced6a",
+      "decrypted_partial_hash": "d4cd0241d8f2e744667ce6a2106cb58ea57364be",
+      "sram_free_start": "0x20002929",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 5205,
+      "encrypted_hash": "7f400989bdf8bd24e8adbd4b808bd4f7ce3b1921",
+      "decrypted_hash": "2080a7fd2b8190c3ef5784f53c6975afa3d06995",
+      "decrypted_partial_hash": "8036f8cdf3ddcfb1295bd1327c696a6c147971ae",
+      "sram_free_start": "0x20002979",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    },
+    {
+      "version": 5207,
+      "encrypted_hash": "0cb63083cb94e07e191fcbceeb5c8433bccf6afb",
+      "decrypted_hash": "ee06c6be907f041e9b3efdb25da7ce68252515ea",
+      "decrypted_partial_hash": "bf1fc7518a69380033f4116c7440935323683da5",
+      "sram_free_start": "0x20002979",
+      "crypto": {
+        "method": "AesECB128",
+        "key_hash": "e61dcd2fa9e689a370f6a7f81b1757cf05490c94"
+      }
+    }
+  ]
+}

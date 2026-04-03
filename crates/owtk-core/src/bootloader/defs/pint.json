@@ -1,0 +1,11 @@
+{
+  "board": "Pint",
+  "bootloaders": [
+    {
+      "version": 6,
+      "sram_free_start": "0x20000A20",
+      "hash": "4246780bc39099449286b3d44b30b484ec7efb5f",
+      "partial_hash": "d1c9953b539014c2c27d09b9cf7179fa7f725057"
+    }
+  ]
+}
