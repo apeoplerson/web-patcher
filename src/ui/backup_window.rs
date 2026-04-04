@@ -1,7 +1,7 @@
 use super::helpers::card_frame;
 use crate::app::{PatcherApp, PendingFileKind};
 use owtk_core::backup::{BackupConfig, ParsedBackup, write_f1_config, write_f4_config};
-use owtk_core::board::McuFamily;
+use owtk_core::board::{BoardGeneration, McuFamily};
 
 /// Amber highlight for modified values.
 const MODIFIED_COLOR: egui::Color32 = egui::Color32::from_rgb(255, 210, 100);
@@ -313,7 +313,7 @@ fn show_config_fields(ui: &mut egui::Ui, config: &mut BackupConfig, original: &B
     config_row_i16(ui, "Gyro X Offset:", &mut config.gyro_x_offset, original.gyro_x_offset);
     config_row_i16(ui, "Gyro Z Offset:", &mut config.gyro_z_offset, original.gyro_z_offset);
     config_row_i16(ui, "Gyro Y Offset:", &mut config.gyro_y_offset, original.gyro_y_offset);
-    config_row_enum::<HwGeneration>(ui, "Generation:", &mut config.generation, original.generation);
+    config_row_enum::<BoardGeneration>(ui, "Generation:", &mut config.generation, original.generation);
     config_row_toggle(ui, "Simplestop", &mut config.simplestop, original.simplestop, 1, 0);
 
     if mcu == McuFamily::F4 {
@@ -349,21 +349,7 @@ trait ConfigEnum: Copy + PartialEq + 'static {
     fn label(self) -> &'static str;
 }
 
-/// Hardware generation values stored in the config.
-#[derive(Debug, Copy, Clone, PartialEq)]
-enum HwGeneration {
-    V1,
-    V1_2,
-    Plus,
-    XR,
-    Pint,
-    GT,
-    PintXS,
-    GTS,
-    XRC,
-}
-
-impl ConfigEnum for HwGeneration {
+impl ConfigEnum for BoardGeneration {
     fn from_u16(val: u16) -> Option<Self> {
         match val {
             1 => Some(Self::V1),
@@ -372,7 +358,7 @@ impl ConfigEnum for HwGeneration {
             4 => Some(Self::XR),
             5 => Some(Self::Pint),
             6 => Some(Self::GT),
-            7 => Some(Self::PintXS),
+            7 => Some(Self::PintX), // Pint X and Pint S share the same config value
             8 => Some(Self::GTS),
             9 => Some(Self::XRC),
             _ => None,
@@ -387,14 +373,14 @@ impl ConfigEnum for HwGeneration {
             Self::XR => 4,
             Self::Pint => 5,
             Self::GT => 6,
-            Self::PintXS => 7,
+            Self::PintX | Self::PintS => 7,
             Self::GTS => 8,
             Self::XRC => 9,
         }
     }
 
     fn variants() -> &'static [Self] {
-        &[Self::V1, Self::V1_2, Self::Plus, Self::XR, Self::Pint, Self::GT, Self::PintXS, Self::GTS, Self::XRC]
+        &[Self::V1, Self::V1_2, Self::Plus, Self::XR, Self::Pint, Self::GT, Self::PintX, Self::GTS, Self::XRC]
     }
 
     fn label(self) -> &'static str {
@@ -405,7 +391,7 @@ impl ConfigEnum for HwGeneration {
             Self::XR => "XR",
             Self::Pint => "Pint",
             Self::GT => "GT",
-            Self::PintXS => "Pint X/S",
+            Self::PintX | Self::PintS => "PintX/S",
             Self::GTS => "GTS",
             Self::XRC => "XRC",
         }
@@ -485,7 +471,7 @@ fn config_row_toggle(
             if reset_button(ui, is_modified) {
                 *val = original;
             }
-            let mut checked = val.map_or(false, |v| v != off_value);
+            let mut checked = val.is_some_and(|v| v != off_value);
             if ui.checkbox(&mut checked, "").changed() {
                 *val = Some(if checked { on_value } else { off_value });
             }
