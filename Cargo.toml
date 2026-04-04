@@ -3,7 +3,7 @@ members = ["crates/owtk-core"]
 
 [package]
 name = "owtk_patcher"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 
 [dependencies]
