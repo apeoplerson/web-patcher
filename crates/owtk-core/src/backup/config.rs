@@ -217,7 +217,7 @@ fn parse_f4_sector(sector: &[u8]) -> Option<BackupConfig> {
             F4_TAG_BMS_SERIAL_LO => config.bms_serial_lo = Some(value),
             F4_TAG_BMS_SERIAL_HI => config.bms_serial_hi = Some(value),
             F4_TAG_HAPTIC_ENABLED => config.haptic_enabled = Some(value),
-            F4_TAG_RECURVE_RAILS => config.haptic_enabled = Some(value),
+            F4_TAG_RECURVE_RAILS => config.recurve_rails = Some(value),
             _ => {} // ignore all other tags
         }
 
