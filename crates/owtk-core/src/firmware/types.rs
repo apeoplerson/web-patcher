@@ -85,7 +85,7 @@ pub struct IdentifiedFirmware {
     /// The crypto identifier that applies to this specific file.
     ///
     /// Usually matches `descriptor.crypto_identifier`, but differs when
-    /// the firmware was encrypted with a non-native method (e.g. a DynIV
+    /// the firmware was encrypted with a non-native method (e.g. a `DynIV`
     /// firmware exported for the older v2 static-CTR bootloader).
     pub effective_crypto: CryptoIdentifier,
 }

@@ -126,7 +126,11 @@ pub fn apply_patches_to_copy_with_report(
     // bootloader always finds it in the expected trailing bytes.
     // We can't re-sign, so the placeholder is just 0xFF fill.
     let work_image =
-        if ctx.has_rsa_sig && image.len() > RSA_SIG_SIZE { &image[..image.len() - RSA_SIG_SIZE] } else { image };
+        if ctx.has_rsa_sig && image.len() > RSA_SIG_SIZE {
+            image.get(..image.len() - RSA_SIG_SIZE).expect("len > RSA_SIG_SIZE")
+        } else {
+            image
+        };
 
     // Reserve space for the signature placeholder that will be appended.
     let alloc_limit = if ctx.has_rsa_sig { max_image_size.saturating_sub(RSA_SIG_SIZE) } else { max_image_size };
@@ -142,7 +146,7 @@ pub fn apply_patches_to_copy_with_report(
     }
 
     // Clear the old allocation region so previous shellcode doesn't linger.
-    patched[alloc_result.content_end..].fill(0xFF);
+    patched.get_mut(alloc_result.content_end..).expect("content_end within patched").fill(0xFF);
 
     // Write the allocation marker so future patch operations can reclaim
     // this space instead of stacking after old allocations.
@@ -268,10 +272,10 @@ fn strip_trailing_padding(data: &[u8]) -> usize {
     let mut end = data.len();
     loop {
         let prev = end;
-        while end > 0 && data[end - 1] == 0xFF {
+        while end > 0 && data.get(end - 1).copied() == Some(0xFF) {
             end -= 1;
         }
-        while end >= 4 && data[end - 4..end] == THUMB2_LOOP_PAD {
+        while end >= 4 && data.get(end - 4..end) == Some(&THUMB2_LOOP_PAD) {
             end -= 4;
         }
         if end == prev {
@@ -294,9 +298,10 @@ fn find_content_end(data: &[u8]) -> usize {
     // Scan backwards for the allocation marker.  Because the marker
     // sits right before the first allocation and allocations are near
     // the end of the image, `rposition` finds it quickly.
-    if let Some(pos) = data[..end].windows(ALLOC_MARKER.len()).rposition(|w| w == ALLOC_MARKER) {
+    if let Some(pos) = data.get(..end).unwrap_or_default().windows(ALLOC_MARKER.len()).rposition(|w| w == ALLOC_MARKER)
+    {
         // Strip padding between the real firmware content and the marker.
-        strip_trailing_padding(&data[..pos])
+        strip_trailing_padding(data.get(..pos).unwrap_or_default())
     } else {
         end
     }
