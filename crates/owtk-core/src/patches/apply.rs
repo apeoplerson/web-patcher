@@ -125,12 +125,11 @@ pub fn apply_patches_to_copy_with_report(
     // allocating.  Appended code must live *before* the signature so the
     // bootloader always finds it in the expected trailing bytes.
     // We can't re-sign, so the placeholder is just 0xFF fill.
-    let work_image =
-        if ctx.has_rsa_sig && image.len() > RSA_SIG_SIZE {
-            image.get(..image.len() - RSA_SIG_SIZE).expect("len > RSA_SIG_SIZE")
-        } else {
-            image
-        };
+    let work_image = if ctx.has_rsa_sig && image.len() > RSA_SIG_SIZE {
+        image.get(..image.len() - RSA_SIG_SIZE).expect("len > RSA_SIG_SIZE")
+    } else {
+        image
+    };
 
     // Reserve space for the signature placeholder that will be appended.
     let alloc_limit = if ctx.has_rsa_sig { max_image_size.saturating_sub(RSA_SIG_SIZE) } else { max_image_size };

@@ -334,7 +334,9 @@ fn firmware_without_rsa(data: &[u8], app: &PatcherApp) -> Vec<u8> {
     let has_sig =
         app.firmware_identity.as_ref().is_some_and(|id| id.effective_crypto.method == CryptoMethod::AesCTR128DynIv);
     if has_sig {
-        data.len().checked_sub(RSA_SIG_SIZE).map_or_else(|| data.to_vec(), |end| data.get(..end).unwrap_or(data).to_vec())
+        data.len()
+            .checked_sub(RSA_SIG_SIZE)
+            .map_or_else(|| data.to_vec(), |end| data.get(..end).unwrap_or(data).to_vec())
     } else {
         data.to_vec()
     }
