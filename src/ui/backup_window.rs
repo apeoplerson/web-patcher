@@ -314,11 +314,11 @@ fn show_config_fields(ui: &mut egui::Ui, config: &mut BackupConfig, original: &B
     config_row_i16(ui, "Gyro Z Offset:", &mut config.gyro_z_offset, original.gyro_z_offset);
     config_row_i16(ui, "Gyro Y Offset:", &mut config.gyro_y_offset, original.gyro_y_offset);
     config_row_enum::<HwGeneration>(ui, "Generation:", &mut config.generation, original.generation);
-    config_row_bool(ui, "Simplestop", &mut config.simplestop, original.simplestop);
+    config_row_toggle(ui, "Simplestop", &mut config.simplestop, original.simplestop, 1, 0);
 
     if mcu == McuFamily::F4 {
-        config_row_bool(ui, "Haptic Enabled", &mut config.haptic_enabled, original.haptic_enabled);
-        config_row_bool(ui, "Recurve Rails", &mut config.recurve_rails, original.recurve_rails);
+        config_row_toggle(ui, "Haptic Enabled", &mut config.haptic_enabled, original.haptic_enabled, 90, 0);
+        config_row_toggle(ui, "Recurve Rails", &mut config.recurve_rails, original.recurve_rails, 1, 0);
     }
 
     config_row_u32(
@@ -470,7 +470,14 @@ fn config_row_enum<T: ConfigEnum>(ui: &mut egui::Ui, label: &str, val: &mut Opti
     });
 }
 
-fn config_row_bool(ui: &mut egui::Ui, label: &str, val: &mut Option<u16>, original: Option<u16>) {
+fn config_row_toggle(
+    ui: &mut egui::Ui,
+    label: &str,
+    val: &mut Option<u16>,
+    original: Option<u16>,
+    on_value: u16,
+    off_value: u16,
+) {
     let is_modified = *val != original;
     ui.horizontal(|ui| {
         modified_label(ui, label, is_modified);
@@ -478,9 +485,9 @@ fn config_row_bool(ui: &mut egui::Ui, label: &str, val: &mut Option<u16>, origin
             if reset_button(ui, is_modified) {
                 *val = original;
             }
-            let mut checked = val.map_or(false, |v| v != 0);
+            let mut checked = val.map_or(false, |v| v != off_value);
             if ui.checkbox(&mut checked, "").changed() {
-                *val = Some(if checked { 1 } else { 0 });
+                *val = Some(if checked { on_value } else { off_value });
             }
         });
     });
