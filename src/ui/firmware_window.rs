@@ -1,6 +1,5 @@
 use std::time::Duration;
 
-use crate::app::PatcherApp;
 use owtk_core::board::BoardGeneration;
 use owtk_core::crypto::cipher::{RSA_SIG_SIZE, decrypt_firmware, encrypt_firmware, firmware_payload};
 use owtk_core::crypto::{CRYPTO_ID_GT_CTR, CRYPTO_ID_GT_CTR_DYN, CryptoKey, CryptoMethod, sha1_hash};
@@ -8,6 +7,8 @@ use owtk_core::firmware::{FirmwareState, IdentifiedFirmware};
 use owtk_core::patches::{
     PatchApplyContext, apply_patches_to_copy, build_patch_entries, has_pending_patch_changes, patches_for_firmware,
 };
+
+use crate::app::PatcherApp;
 
 /// Finds the matching crypto key for the currently identified firmware.
 /// Returns a *copy* so we don't hold an immutable borrow on `app`.
@@ -170,12 +171,7 @@ fn show_content(app: &mut PatcherApp, ui: &mut egui::Ui) {
                             sram_free_start: descriptor.sram_free_start,
                             has_rsa_sig: ident.effective_crypto.method == CryptoMethod::AesCTR128DynIv,
                         };
-                        match apply_patches_to_copy(
-                            fw,
-                            entries,
-                            board.mcu_family_from_board_gen().max_firmware_size(),
-                            &ctx,
-                        ) {
+                        match apply_patches_to_copy(fw, entries, board.mcu_family().max_firmware_size(), &ctx) {
                             Ok(patched) => Some(patched),
                             Err(e) => {
                                 app.toasts.error(format!("Patch failed: {e}")).duration(Some(Duration::from_secs(6)));

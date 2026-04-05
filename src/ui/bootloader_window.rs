@@ -1,9 +1,10 @@
 use std::time::Duration;
 
-use crate::app::PatcherApp;
 use owtk_core::patches::{
     PatchApplyContext, apply_patches_to_copy, build_patch_entries, has_pending_patch_changes, patches_for_bootloader,
 };
+
+use crate::app::PatcherApp;
 
 /// Desktop: renders the bootloader window as a floating `egui::Window`.
 pub(crate) fn show(app: &mut PatcherApp, ui: &egui::Ui) {
@@ -110,7 +111,7 @@ fn show_content(app: &mut PatcherApp, ui: &mut egui::Ui) {
                             sram_free_start: desc.sram_free_start,
                             has_rsa_sig: false,
                         };
-                        let max_size = desc.board.mcu_family_from_board_gen().max_bootloader_size();
+                        let max_size = desc.board.mcu_family().max_bootloader_size();
                         match apply_patches_to_copy(bl, entries, max_size, &ctx) {
                             Ok(patched) => Some(patched),
                             Err(e) => {

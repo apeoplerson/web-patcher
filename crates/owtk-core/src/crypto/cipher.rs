@@ -144,7 +144,7 @@ pub fn firmware_payload(data: &[u8], method: CryptoMethod, state: FirmwareState)
 }
 
 fn decrypt_ecb(data: &[u8], key: &[u8; 16]) -> Result<Vec<u8>, CipherError> {
-    if data.len() % 16 != 0 {
+    if !data.len().is_multiple_of(16) {
         return Err(CipherError::UnalignedData);
     }
     let dec = Aes128EcbDec::new(key.into());
@@ -152,7 +152,7 @@ fn decrypt_ecb(data: &[u8], key: &[u8; 16]) -> Result<Vec<u8>, CipherError> {
 }
 
 fn encrypt_ecb(data: &[u8], key: &[u8; 16]) -> Result<Vec<u8>, CipherError> {
-    if data.len() % 16 != 0 {
+    if !data.len().is_multiple_of(16) {
         return Err(CipherError::UnalignedData);
     }
     let enc = Aes128EcbEnc::new(key.into());

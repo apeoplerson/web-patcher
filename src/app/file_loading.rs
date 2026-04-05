@@ -1,11 +1,12 @@
 use std::time::Duration;
 
-use super::{MobileView, PatcherApp};
 use owtk_core::backup::detect_and_parse_backup;
 use owtk_core::board::BoardGeneration;
 use owtk_core::bootloader::{IdentifiedBootloader, identify_bootloader};
 use owtk_core::crypto::extract_keys_from_dump;
 use owtk_core::firmware::{FirmwareState, identify_firmware};
+
+use super::{MobileView, PatcherApp};
 
 #[derive(Clone, Copy, Debug)]
 pub(crate) enum PendingFileKind {
@@ -80,7 +81,7 @@ impl PatcherApp {
         // Reject files larger than the firmware region for the detected
         // board's MCU family. Catches malformed or oversized firmware files
         // that happen to match a known hash.
-        let max_size = id.descriptor.board.mcu_family_from_board_gen().max_firmware_size();
+        let max_size = id.descriptor.board.mcu_family().max_firmware_size();
 
         if bytes.len() > max_size {
             self.toasts
@@ -120,7 +121,7 @@ impl PatcherApp {
         // board's MCU family.  Without this, full flash backups would match
         // via the partial hash since the backup starts with the bootloader's
         // vector table.
-        let max_size = id.descriptor.board.mcu_family_from_board_gen().max_bootloader_size();
+        let max_size = id.descriptor.board.mcu_family().max_bootloader_size();
 
         if bytes.len() > max_size {
             self.toasts

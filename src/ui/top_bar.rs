@@ -1,6 +1,5 @@
-use crate::app::{MobileView, PatcherApp, PendingFileKind};
-
 use super::helpers::is_mobile;
+use crate::app::{MobileView, PatcherApp, PendingFileKind};
 
 /// Shows the top navigation bar.
 ///

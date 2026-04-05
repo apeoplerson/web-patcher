@@ -269,10 +269,11 @@ fn show_hex_input(ui: &mut egui::Ui, id: egui::Id, len: usize, value: &mut Scrip
         buf = buf.chars().filter(|c| !c.is_whitespace()).collect::<String>().to_ascii_lowercase();
     }
 
-    if buf.len() == expected_chars && buf.chars().all(|c| c.is_ascii_hexdigit()) {
-        if let Ok(bytes) = hex::decode(&buf) {
-            *value = ScriptValue::Bytes(bytes);
-        }
+    if buf.len() == expected_chars
+        && buf.chars().all(|c| c.is_ascii_hexdigit())
+        && let Ok(bytes) = hex::decode(&buf)
+    {
+        *value = ScriptValue::Bytes(bytes);
     }
 
     ui.data_mut(|d| d.insert_temp(id, buf));

@@ -1,10 +1,11 @@
 use std::collections::{BTreeMap, BTreeSet};
 
-use super::helpers::card_frame;
-use crate::app::PatcherApp;
 use owtk_core::board::BoardGeneration;
 use owtk_core::patches::types::{PatchDefinition, PatchTarget, ScriptParamKind};
 use owtk_core::patches::{all_patches_grouped, scripting};
+
+use super::helpers::card_frame;
+use crate::app::PatcherApp;
 
 /// A patch entry with board availability and per-board version info.
 struct PatchInfo<'a> {
@@ -33,8 +34,8 @@ fn collect_patches<'a>(
                         info.boards.entry(*board).or_default().insert(*version);
                     })
                     .or_insert_with(|| {
-                        let mut boards = BTreeMap::new();
-                        boards.entry(*board).or_insert_with(BTreeSet::new).insert(*version);
+                        let mut boards: BTreeMap<BoardGeneration, BTreeSet<u16>> = BTreeMap::new();
+                        boards.entry(*board).or_default().insert(*version);
                         PatchInfo {
                             name: def.name.as_str(),
                             description: def.description.as_str(),

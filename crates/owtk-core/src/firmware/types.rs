@@ -36,7 +36,7 @@ pub struct FirmwareDescriptor {
     pub encrypted_hash: Option<[u8; 20]>,
     /// SHA-1 hash of the decrypted firmware image, if known.
     pub decrypted_hash: Option<[u8; 20]>,
-    /// SHA-1 hash of the first [`PARTIAL_HASH_SIZE`](super::identify::PARTIAL_HASH_SIZE)
+    /// SHA-1 hash of the first [`PARTIAL_HASH_SIZE`](crate::crypto::PARTIAL_HASH_SIZE)
     /// bytes of the **decrypted** firmware image, if known.
     ///
     /// This is used as a fallback when the full-file hash doesn't match
