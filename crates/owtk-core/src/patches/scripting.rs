@@ -6,6 +6,7 @@ use rhai::{AST, Array, Blob, Dynamic, Engine, Map, Scope};
 
 use super::types::{ScriptParam, ScriptParamKind, ScriptTarget, ScriptValue};
 use crate::board::BoardGeneration;
+use crate::crypto;
 
 // ── Compiled script cache ──────────────────────────────────────────────
 
@@ -182,6 +183,12 @@ fn register_helpers(engine: &mut Engine) {
     engine.register_fn("parse_int", |s: String| -> Result<i64, Box<rhai::EvalAltResult>> {
         s.parse::<i64>().map_err(|e| format!("parse_int: invalid integer '{s}': {e}").into())
     });
+
+    // sha1(blob) -> Blob (20-byte SHA-1 hash)
+    engine.register_fn("sha1", |data: Blob| -> Blob { crypto::sha1_hash(&data).to_vec() });
+
+    // sha1_hex(blob) -> String (40-char lowercase hex SHA-1 hash)
+    engine.register_fn("sha1_hex", |data: Blob| -> String { hex::encode(crypto::sha1_hash(&data)) });
 
     register_arm_helpers(engine);
 }
@@ -599,7 +606,20 @@ fn parse_targets_array(entry: &Map) -> anyhow::Result<Vec<ScriptTarget>> {
 
         let meta = target_map.get("meta").and_then(|v| v.clone().try_cast::<Map>());
 
-        targets.push(ScriptTarget { offset, original, meta, append, blind });
+        let sha1 = match target_map.get("sha1") {
+            Some(v) => {
+                let s =
+                    v.clone().into_string().map_err(|e| anyhow::anyhow!("target 'sha1' must be a hex string: {e}"))?;
+                let bytes = parse_hex_bytes(&s)?;
+                let arr: [u8; 20] = bytes.try_into().map_err(|v: Vec<u8>| {
+                    anyhow::anyhow!("target 'sha1' must be exactly 20 bytes (40 hex chars), got {}", v.len())
+                })?;
+                Some(arr)
+            }
+            None => None,
+        };
+
+        targets.push(ScriptTarget { offset, original, meta, append, blind, sha1 });
     }
     Ok(targets)
 }
@@ -617,6 +637,9 @@ fn build_targets_array(targets: &[ScriptTarget]) -> Array {
             map.insert("len".into(), Dynamic::from(t.original.len() as i64));
             map.insert("append".into(), Dynamic::from(t.append));
             map.insert("blind".into(), Dynamic::from(t.blind));
+            if let Some(hash) = &t.sha1 {
+                map.insert("sha1".into(), Dynamic::from(hash.to_vec()));
+            }
             if let Some(meta) = &t.meta {
                 map.insert("meta".into(), Dynamic::from(meta.clone()));
             }

@@ -24,8 +24,13 @@ pub(crate) fn show_patch_entry(ui: &mut egui::Ui, entry: &mut PatchEntry) {
         .show_header(ui, |ui| {
             ui.horizontal(|ui| {
                 // Enable / disable checkbox (no label).
+                // A patch that is currently applied cannot be unchecked if none
+                // of its targets are revertible (all blind/append — no known
+                // original bytes to restore).
+                let can_revert = entry.definition.targets.iter().any(|t| !t.blind);
                 let mut enabled = !matches!(entry.selection, PatchSelection::Disabled);
-                if ui.checkbox(&mut enabled, "").changed() {
+                let checkbox = ui.add_enabled(can_revert || !enabled, egui::Checkbox::new(&mut enabled, ""));
+                if checkbox.changed() {
                     entry.selection = if enabled {
                         // Prefer read-back values (actual firmware state)
                         // over parameter defaults.
@@ -109,9 +114,7 @@ fn status_tooltip(entry: &PatchEntry) -> &str {
         PatchStatus::Unknown => {
             "The patch's target offsets extend past the loaded firmware buffer — status could not be determined."
         }
-        PatchStatus::Blind => {
-            "This patch has no known original bytes — its applied state cannot be detected."
-        }
+        PatchStatus::Blind => "This patch has no known original bytes — its applied state cannot be detected.",
     }
 }
 

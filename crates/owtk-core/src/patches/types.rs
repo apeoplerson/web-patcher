@@ -27,6 +27,12 @@ pub struct ScriptTarget {
     /// zero-filled placeholder whose only purpose is carrying the byte
     /// length.  Detection and revert both skip blind targets.
     pub blind: bool,
+    /// Optional SHA-1 hash of the stock firmware bytes at this target.
+    ///
+    /// Useful for blind targets where the original bytes cannot be
+    /// distributed: the hash allows detection (stock vs applied) without
+    /// storing the actual byte values.
+    pub sha1: Option<[u8; 20]>,
 }
 
 /// A parameter declared by a script's `parameters()` function for UI

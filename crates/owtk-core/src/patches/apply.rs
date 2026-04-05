@@ -8,6 +8,7 @@ use super::types::{
     PatchWriteRecord, ScriptTarget,
 };
 use crate::board::BoardGeneration;
+use crate::crypto;
 use crate::crypto::cipher::RSA_SIG_SIZE;
 
 /// Context needed by the patch apply pipeline for SRAM allocation.
@@ -66,7 +67,18 @@ pub fn detect_status(firmware: &[u8], definition: &PatchDefinition) -> PatchStat
     let mut all_stock = true;
     let mut any_checked = false;
     for target in &definition.targets {
-        if target.append || target.blind {
+        if target.append {
+            continue;
+        }
+        if target.blind {
+            // Blind targets with a SHA-1 hash can still participate in detection.
+            let Some(expected_hash) = &target.sha1 else { continue };
+            any_checked = true;
+            match read_bytes(firmware, target.offset, target.original.len()) {
+                Some(current) if crypto::sha1_hash(current) == *expected_hash => {}
+                Some(_) => all_stock = false,
+                None => return PatchStatus::Unknown,
+            }
             continue;
         }
         any_checked = true;
@@ -409,6 +421,7 @@ fn resolve_targets(
                     meta: t.meta.clone(),
                     append: true,
                     blind: t.blind,
+                    sha1: t.sha1,
                 })
             } else {
                 Ok(t.clone())
@@ -554,11 +567,11 @@ mod tests {
     }
 
     fn fixed_target(offset: usize, original: &[u8]) -> ScriptTarget {
-        ScriptTarget { offset, original: original.to_vec(), meta: None, append: false, blind: false }
+        ScriptTarget { offset, original: original.to_vec(), meta: None, append: false, blind: false, sha1: None }
     }
 
     fn append_target(size: usize) -> ScriptTarget {
-        ScriptTarget { offset: 0, original: vec![0u8; size], meta: None, append: true, blind: false }
+        ScriptTarget { offset: 0, original: vec![0u8; size], meta: None, append: true, blind: false, sha1: None }
     }
 
     // ── detect_status ────────────────────────────────────────────

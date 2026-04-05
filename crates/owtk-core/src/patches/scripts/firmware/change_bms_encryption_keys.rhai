@@ -6,23 +6,23 @@ fn patch() {
         boards: #{
             "GT": [
                 #{ versions: [6109], targets: [
-                    #{ offset: 0x12009, size: 32, blind: true },
+                    #{ offset: 0x12009, size: 32, blind: true, sha1: "6908ebc99c7963d8a467d35c1d7a852f12e9834b" },
                 ]},
                 #{ versions: [6210], targets: [
-                    #{ offset: 0x312, size: 32, blind: true },
+                    #{ offset: 0x312, size: 32, blind: true, sha1: "6908ebc99c7963d8a467d35c1d7a852f12e9834b" },
                 ]},
             ],
             "GTS": [
                 #{ versions: [6167], targets: [
-                    #{ offset: 0x2F8, size: 32, blind: true },
+                    #{ offset: 0x2F8, size: 32, blind: true, sha1: "07279efc0930f5f3bc4d8b27b3703bcc2fccb3dd" },
                 ]},
                 #{ versions: [6208], targets: [
-                    #{ offset: 0x30B, size: 32, blind: true },
+                    #{ offset: 0x30B, size: 32, blind: true, sha1: "07279efc0930f5f3bc4d8b27b3703bcc2fccb3dd" },
                 ]},
             ],
             "XRC": [
                 #{ versions: [6213], targets: [
-                    #{ offset: 0x314, size: 32, blind: true },
+                    #{ offset: 0x314, size: 32, blind: true, sha1: "586b8a3c1bd7aba0f1fe8e175667785c026bdc7b" },
                 ]},
             ],
         }
