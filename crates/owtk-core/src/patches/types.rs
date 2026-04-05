@@ -157,6 +157,9 @@ pub enum PatchStatus {
     Applied,
     /// One or more target offsets extend past the firmware buffer.
     Unknown,
+    /// All targets are blind — original bytes are unknown, so status
+    /// cannot be determined by comparison.
+    Blind,
 }
 
 /// An individual patch entry tracked at runtime — pairs a static

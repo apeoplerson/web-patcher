@@ -251,10 +251,12 @@ fn show_hex_input(ui: &mut egui::Ui, id: egui::Id, len: usize, value: &mut Scrip
 
     let text_color = if is_valid { ui.visuals().text_color() } else { egui::Color32::from_rgb(255, 100, 100) };
 
+    let min_width = (len as f32 * 16.0).min(400.0);
+
     let response = ui.add(
         egui::TextEdit::singleline(&mut buf)
             .font(egui::TextStyle::Monospace)
-            .desired_width((len as f32 * 16.0).min(400.0))
+            .min_size(egui::vec2(min_width, 0.0))
             .char_limit(expected_chars)
             .text_color(text_color)
             .hint_text(format!("{expected_chars} hex chars")),
