@@ -94,6 +94,8 @@ fn show_content(app: &mut PatcherApp, ui: &mut egui::Ui) {
         return;
     }
 
+    ui.add_space(4.0);
+
     // ── Board filter chips ──────────────────────────────────
     ui.horizontal_wrapped(|ui| {
         let all_selected = app.supported_board_filter.is_none();

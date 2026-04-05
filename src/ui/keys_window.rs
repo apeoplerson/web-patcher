@@ -53,6 +53,8 @@ fn show_content(app: &mut PatcherApp, ui: &mut egui::Ui) {
     // ── Load button + key count ──────────────────────────────────
     let key_count = app.crypto_keys.as_ref().map_or(0, std::vec::Vec::len);
 
+    ui.add_space(4.0);
+
     ui.horizontal(|ui| {
         if ui.button("Load from Dump").clicked() {
             app.start_file_request(PendingFileKind::Dump, ui.ctx());
