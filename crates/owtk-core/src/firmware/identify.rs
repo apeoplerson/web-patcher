@@ -1,23 +1,7 @@
 use super::registry::known_firmwares;
 use super::types::{FirmwareDescriptor, FirmwareState, IdentifiedFirmware};
 use crate::crypto::cipher::{RSA_SIG_SIZE, decrypt_firmware};
-use crate::crypto::{CryptoKey, CryptoMethod, sha1_hash};
-
-/// Number of leading bytes used for partial-hash identification.
-///
-/// This covers the Cortex-M vector table (initial SP + exception/interrupt
-/// handler addresses) which is unique per firmware build but is never
-/// modified by patches.  512 bytes (128 vector entries × 4 bytes) sits
-/// comfortably below the lowest known patch offset (`0x99A`), giving
-/// plenty of headroom for future patches.
-pub const PARTIAL_HASH_SIZE: usize = 0x200;
-
-/// Computes the partial identification hash for a firmware buffer.
-///
-/// Returns `None` if the buffer is shorter than [`PARTIAL_HASH_SIZE`].
-pub fn partial_hash(data: &[u8]) -> Option<[u8; 20]> {
-    Some(sha1_hash(data.get(..PARTIAL_HASH_SIZE)?))
-}
+use crate::crypto::{CryptoKey, CryptoMethod, partial_hash, sha1_hash};
 
 /// Attempts to identify a firmware image by hashing it and matching
 /// against the known firmware database loaded from `src/firmware/defs/`.

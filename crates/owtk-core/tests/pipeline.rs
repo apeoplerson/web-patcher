@@ -255,7 +255,7 @@ fn patch_decrypted_firmware() {
 
         let has_rsa_sig = id.descriptor.crypto_identifier.method == CryptoMethod::AesCTR128DynIv;
         let ctx = PatchApplyContext { board, version, sram_free_start: id.descriptor.sram_free_start, has_rsa_sig };
-        let max_size = board.mcu_family_from_board_gen().max_firmware_size();
+        let max_size = board.mcu_family().max_firmware_size();
         let patched = apply_patches_to_copy(data, &patching_entries, max_size, &ctx);
         match patched {
             Ok(patched_data) => {
@@ -328,7 +328,7 @@ fn patch_and_encrypt_firmware() {
 
         let has_rsa_sig = id.descriptor.crypto_identifier.method == CryptoMethod::AesCTR128DynIv;
         let ctx = PatchApplyContext { board, version, sram_free_start: id.descriptor.sram_free_start, has_rsa_sig };
-        let max_size = board.mcu_family_from_board_gen().max_firmware_size();
+        let max_size = board.mcu_family().max_firmware_size();
         let Ok(patched) = apply_patches_to_copy(data, &entries, max_size, &ctx) else {
             continue;
         };
@@ -433,7 +433,7 @@ fn patch_bootloaders() {
 
         let ctx =
             PatchApplyContext { board, version, sram_free_start: id.descriptor.sram_free_start, has_rsa_sig: false };
-        let max_size = board.mcu_family_from_board_gen().max_bootloader_size();
+        let max_size = board.mcu_family().max_bootloader_size();
         match apply_patches_to_copy(data, &entries, max_size, &ctx) {
             Ok(patched) => {
                 let re_id = identify_bootloader(&patched);
@@ -509,7 +509,7 @@ fn generate_patch_diff_reports() {
 
         let has_rsa_sig = id.descriptor.crypto_identifier.method == CryptoMethod::AesCTR128DynIv;
         let ctx = PatchApplyContext { board, version, sram_free_start: id.descriptor.sram_free_start, has_rsa_sig };
-        let max_size = board.mcu_family_from_board_gen().max_firmware_size();
+        let max_size = board.mcu_family().max_firmware_size();
 
         match apply_patches_to_copy_with_report(data, &entries, max_size, &ctx) {
             Ok((patched_data, report)) => {

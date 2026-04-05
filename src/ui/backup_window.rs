@@ -1,7 +1,8 @@
-use super::helpers::card_frame;
-use crate::app::{PatcherApp, PendingFileKind};
 use owtk_core::backup::{BackupConfig, ParsedBackup, write_f1_config, write_f4_config};
 use owtk_core::board::{BoardGeneration, McuFamily};
+
+use super::helpers::card_frame;
+use crate::app::{PatcherApp, PendingFileKind};
 
 /// Amber highlight for modified values.
 const MODIFIED_COLOR: egui::Color32 = egui::Color32::from_rgb(255, 210, 100);

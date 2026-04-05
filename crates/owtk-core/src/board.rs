@@ -54,7 +54,7 @@ impl std::fmt::Display for BoardGeneration {
 
 impl BoardGeneration {
     /// The MCU family this board generation uses.
-    pub fn mcu_family_from_board_gen(self) -> McuFamily {
+    pub fn mcu_family(self) -> McuFamily {
         match self {
             Self::V1 | Self::V1_2 | Self::Plus | Self::XR | Self::Pint | Self::PintX | Self::PintS => McuFamily::F1,
             Self::GT | Self::GTS | Self::XRC => McuFamily::F4,
@@ -134,14 +134,14 @@ mod tests {
             BoardGeneration::PintX,
             BoardGeneration::PintS,
         ] {
-            assert_eq!(board.mcu_family_from_board_gen(), McuFamily::F1, "{board}");
+            assert_eq!(board.mcu_family(), McuFamily::F1, "{board}");
         }
     }
 
     #[test]
     fn f4_boards_map_to_f4() {
         for board in [BoardGeneration::GT, BoardGeneration::GTS, BoardGeneration::XRC] {
-            assert_eq!(board.mcu_family_from_board_gen(), McuFamily::F4, "{board}");
+            assert_eq!(board.mcu_family(), McuFamily::F4, "{board}");
         }
     }
 

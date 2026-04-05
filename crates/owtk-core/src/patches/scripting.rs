@@ -64,87 +64,78 @@ fn create_engine() -> Engine {
 
 // ── Encoding API ───────────────────────────────────────────────────────
 
+/// Registers `encode_{name}` and `decode_{name}` for an integer type.
+/// Rhai uses `i64` for all integers, so casts go through the concrete
+/// hardware type.  `$to_bytes` / `$from_bytes` select the endianness.
+macro_rules! register_int_codec {
+    ($engine:expr, $name:literal, $ty:ty, $to_bytes:ident, $from_bytes:path) => {
+        $engine.register_fn(concat!("encode_", $name), |v: i64| -> Blob { (v as $ty).$to_bytes().to_vec() });
+        $engine.register_fn(concat!("decode_", $name), |b: Blob| -> i64 {
+            let arr = b
+                .get(..std::mem::size_of::<$ty>())
+                .and_then(|s| s.try_into().ok())
+                .unwrap_or([0; std::mem::size_of::<$ty>()]);
+            $from_bytes(arr) as i64
+        });
+    };
+}
+
+/// Registers `encode_{name}` / `decode_{name}` for a float type that
+/// needs narrowing/widening through an intermediate type (e.g. `f32`).
+macro_rules! register_float_codec_widen {
+    ($engine:expr, $name:literal, $ty:ty, $to_bytes:ident, $from_bytes:path) => {
+        $engine.register_fn(concat!("encode_", $name), |v: f64| -> Blob { (v as $ty).$to_bytes().to_vec() });
+        $engine.register_fn(concat!("decode_", $name), |b: Blob| -> f64 {
+            let arr = b
+                .get(..std::mem::size_of::<$ty>())
+                .and_then(|s| s.try_into().ok())
+                .unwrap_or([0; std::mem::size_of::<$ty>()]);
+            f64::from($from_bytes(arr))
+        });
+    };
+}
+
+/// Registers `encode_{name}` / `decode_{name}` for native `f64`
+/// (no widening needed — Rhai's native float type).
+macro_rules! register_f64_codec {
+    ($engine:expr, $name:literal, $to_bytes:ident, $from_bytes:path) => {
+        $engine.register_fn(concat!("encode_", $name), |v: f64| -> Blob { v.$to_bytes().to_vec() });
+        $engine.register_fn(concat!("decode_", $name), |b: Blob| -> f64 {
+            let arr = b.get(..8).and_then(|s| s.try_into().ok()).unwrap_or([0; 8]);
+            $from_bytes(arr)
+        });
+    };
+}
+
 #[expect(
     clippy::cast_possible_truncation,
     clippy::cast_sign_loss,
     reason = "Rhai i64/f64 to hardware-width conversions are intentional"
 )]
 fn register_encoding_api(engine: &mut Engine) {
-    // ── Integer encoders ───────────────────────────────────────
+    // ── 8-bit (no endianness) ──────────────────────────────────
     engine.register_fn("encode_u8", |v: i64| -> Blob { vec![v as u8] });
     engine.register_fn("encode_i8", |v: i64| -> Blob { vec![v as u8] });
-
-    engine.register_fn("encode_u16le", |v: i64| -> Blob { (v as u16).to_le_bytes().to_vec() });
-    engine.register_fn("encode_u16be", |v: i64| -> Blob { (v as u16).to_be_bytes().to_vec() });
-    engine.register_fn("encode_i16le", |v: i64| -> Blob { (v as i16).to_le_bytes().to_vec() });
-    engine.register_fn("encode_i16be", |v: i64| -> Blob { (v as i16).to_be_bytes().to_vec() });
-
-    engine.register_fn("encode_u32le", |v: i64| -> Blob { (v as u32).to_le_bytes().to_vec() });
-    engine.register_fn("encode_u32be", |v: i64| -> Blob { (v as u32).to_be_bytes().to_vec() });
-    engine.register_fn("encode_i32le", |v: i64| -> Blob { (v as i32).to_le_bytes().to_vec() });
-    engine.register_fn("encode_i32be", |v: i64| -> Blob { (v as i32).to_be_bytes().to_vec() });
-
-    // ── Float encoders ─────────────────────────────────────────
-    engine.register_fn("encode_f32le", |v: f64| -> Blob { (v as f32).to_le_bytes().to_vec() });
-    engine.register_fn("encode_f32be", |v: f64| -> Blob { (v as f32).to_be_bytes().to_vec() });
-    engine.register_fn("encode_f64le", |v: f64| -> Blob { v.to_le_bytes().to_vec() });
-    engine.register_fn("encode_f64be", |v: f64| -> Blob { v.to_be_bytes().to_vec() });
-
-    // ── Integer decoders ───────────────────────────────────────
     engine.register_fn("decode_u8", |b: Blob| -> i64 { b.first().copied().unwrap_or(0) as i64 });
     engine.register_fn("decode_i8", |b: Blob| -> i64 { b.first().copied().unwrap_or(0) as i8 as i64 });
 
-    engine.register_fn("decode_u16le", |b: Blob| -> i64 {
-        let arr: [u8; 2] = b.get(..2).and_then(|s| s.try_into().ok()).unwrap_or([0; 2]);
-        u16::from_le_bytes(arr) as i64
-    });
-    engine.register_fn("decode_u16be", |b: Blob| -> i64 {
-        let arr: [u8; 2] = b.get(..2).and_then(|s| s.try_into().ok()).unwrap_or([0; 2]);
-        u16::from_be_bytes(arr) as i64
-    });
-    engine.register_fn("decode_i16le", |b: Blob| -> i64 {
-        let arr: [u8; 2] = b.get(..2).and_then(|s| s.try_into().ok()).unwrap_or([0; 2]);
-        i16::from_le_bytes(arr) as i64
-    });
-    engine.register_fn("decode_i16be", |b: Blob| -> i64 {
-        let arr: [u8; 2] = b.get(..2).and_then(|s| s.try_into().ok()).unwrap_or([0; 2]);
-        i16::from_be_bytes(arr) as i64
-    });
+    // ── 16-bit integers ────────────────────────────────────────
+    register_int_codec!(engine, "u16le", u16, to_le_bytes, u16::from_le_bytes);
+    register_int_codec!(engine, "u16be", u16, to_be_bytes, u16::from_be_bytes);
+    register_int_codec!(engine, "i16le", i16, to_le_bytes, i16::from_le_bytes);
+    register_int_codec!(engine, "i16be", i16, to_be_bytes, i16::from_be_bytes);
 
-    engine.register_fn("decode_u32le", |b: Blob| -> i64 {
-        let arr: [u8; 4] = b.get(..4).and_then(|s| s.try_into().ok()).unwrap_or([0; 4]);
-        u32::from_le_bytes(arr) as i64
-    });
-    engine.register_fn("decode_u32be", |b: Blob| -> i64 {
-        let arr: [u8; 4] = b.get(..4).and_then(|s| s.try_into().ok()).unwrap_or([0; 4]);
-        u32::from_be_bytes(arr) as i64
-    });
-    engine.register_fn("decode_i32le", |b: Blob| -> i64 {
-        let arr: [u8; 4] = b.get(..4).and_then(|s| s.try_into().ok()).unwrap_or([0; 4]);
-        i32::from_le_bytes(arr) as i64
-    });
-    engine.register_fn("decode_i32be", |b: Blob| -> i64 {
-        let arr: [u8; 4] = b.get(..4).and_then(|s| s.try_into().ok()).unwrap_or([0; 4]);
-        i32::from_be_bytes(arr) as i64
-    });
+    // ── 32-bit integers ────────────────────────────────────────
+    register_int_codec!(engine, "u32le", u32, to_le_bytes, u32::from_le_bytes);
+    register_int_codec!(engine, "u32be", u32, to_be_bytes, u32::from_be_bytes);
+    register_int_codec!(engine, "i32le", i32, to_le_bytes, i32::from_le_bytes);
+    register_int_codec!(engine, "i32be", i32, to_be_bytes, i32::from_be_bytes);
 
-    // ── Float decoders ─────────────────────────────────────────
-    engine.register_fn("decode_f32le", |b: Blob| -> f64 {
-        let arr: [u8; 4] = b.get(..4).and_then(|s| s.try_into().ok()).unwrap_or([0; 4]);
-        f32::from_le_bytes(arr) as f64
-    });
-    engine.register_fn("decode_f32be", |b: Blob| -> f64 {
-        let arr: [u8; 4] = b.get(..4).and_then(|s| s.try_into().ok()).unwrap_or([0; 4]);
-        f32::from_be_bytes(arr) as f64
-    });
-    engine.register_fn("decode_f64le", |b: Blob| -> f64 {
-        let arr: [u8; 8] = b.get(..8).and_then(|s| s.try_into().ok()).unwrap_or([0; 8]);
-        f64::from_le_bytes(arr)
-    });
-    engine.register_fn("decode_f64be", |b: Blob| -> f64 {
-        let arr: [u8; 8] = b.get(..8).and_then(|s| s.try_into().ok()).unwrap_or([0; 8]);
-        f64::from_be_bytes(arr)
-    });
+    // ── Floats ─────────────────────────────────────────────────
+    register_float_codec_widen!(engine, "f32le", f32, to_le_bytes, f32::from_le_bytes);
+    register_float_codec_widen!(engine, "f32be", f32, to_be_bytes, f32::from_be_bytes);
+    register_f64_codec!(engine, "f64le", to_le_bytes, f64::from_le_bytes);
+    register_f64_codec!(engine, "f64be", to_be_bytes, f64::from_be_bytes);
 
     // ── Blob helpers ───────────────────────────────────────────
     engine.register_fn("bytes_equal", |a: Blob, b: Blob| -> bool { a == b });
@@ -694,8 +685,7 @@ fn parse_script_param(map: &Map) -> anyhow::Result<ScriptParam> {
             (ScriptParamKind::Enum { options }, ScriptValue::String(def))
         }
         "hex" => {
-            let len =
-                map.get("len").and_then(|v| v.as_int().ok()).context("hex parameter missing 'len'")? as usize;
+            let len = map.get("len").and_then(|v| v.as_int().ok()).context("hex parameter missing 'len'")? as usize;
             let def = match map.get("initial") {
                 Some(v) if v.is_blob() => v.clone().cast::<Vec<u8>>(),
                 Some(v) => {

@@ -1,10 +1,11 @@
 use std::collections::BTreeMap;
 
-use super::helpers::card_frame;
-use crate::app::{PatcherApp, PendingFileKind};
 use owtk_core::board::BoardGeneration;
 use owtk_core::crypto::CryptoIdentifier;
 use owtk_core::firmware::known_firmwares;
+
+use super::helpers::card_frame;
+use crate::app::{PatcherApp, PendingFileKind};
 
 /// For a given `CryptoIdentifier`, collects all compatible firmware descriptors
 /// from the known firmware database, grouped by board generation and sorted by

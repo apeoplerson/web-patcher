@@ -4,13 +4,13 @@ use egui::epaint::Shadow;
 use egui::vec2;
 use egui_notify::Toasts;
 pub(crate) use file_loading::PendingFileKind;
-
-use crate::ui::{backup_window, bootloader_window, firmware_window, keys_window, supported_window, top_bar};
 use owtk_core::backup::ParsedBackup;
 use owtk_core::bootloader::IdentifiedBootloader;
 use owtk_core::crypto::CryptoKey;
 use owtk_core::firmware::{FirmwareState, IdentifiedFirmware};
 use owtk_core::patches::PatchEntry;
+
+use crate::ui::{backup_window, bootloader_window, firmware_window, keys_window, supported_window, top_bar};
 
 /// Tracks which single view is displayed on mobile.
 #[derive(Default, Clone, Copy, PartialEq)]

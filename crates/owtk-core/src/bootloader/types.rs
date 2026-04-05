@@ -14,7 +14,7 @@ pub struct BootloaderDescriptor {
     pub version: u16,
     /// SHA-1 hash of the full bootloader region.
     pub hash: [u8; 20],
-    /// SHA-1 hash of the first [`PARTIAL_HASH_SIZE`](super::identify::PARTIAL_HASH_SIZE)
+    /// SHA-1 hash of the first [`PARTIAL_HASH_SIZE`](crate::crypto::PARTIAL_HASH_SIZE)
     /// bytes of the bootloader, if known.
     ///
     /// Used as a fallback when the full hash doesn't match (e.g.

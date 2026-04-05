@@ -153,7 +153,7 @@ pub fn apply_patches_to_copy_with_report(
         write_bytes(&mut patched, offset, &ALLOC_MARKER).map_err(|e| patch_err("allocator", e))?;
     }
 
-    let fw_base = ctx.board.mcu_family_from_board_gen().firmware_base_address();
+    let fw_base = ctx.board.mcu_family().firmware_base_address();
 
     let mut diff_entries = Vec::new();
     for entry in entries {
@@ -213,7 +213,7 @@ pub fn allocate_sram(ctx: &PatchApplyContext, entries: &[PatchEntry]) -> anyhow:
         )
     })?;
 
-    let sram_end = ctx.board.mcu_family_from_board_gen().sram_end();
+    let sram_end = ctx.board.mcu_family().sram_end();
 
     let mut requests: Vec<(String, String, usize)> = Vec::new();
     for entry in entries {
@@ -397,7 +397,13 @@ fn resolve_targets(
                 let &offset = allocs
                     .get(&(patch_id.to_owned(), i))
                     .ok_or_else(|| anyhow::anyhow!("missing append allocation for patch '{patch_id}' target {i}"))?;
-                Ok(ScriptTarget { offset, original: t.original.clone(), meta: t.meta.clone(), append: true, blind: t.blind })
+                Ok(ScriptTarget {
+                    offset,
+                    original: t.original.clone(),
+                    meta: t.meta.clone(),
+                    append: true,
+                    blind: t.blind,
+                })
             } else {
                 Ok(t.clone())
             }
@@ -632,7 +638,7 @@ mod tests {
         let counter_addr = allocs[&("test_patch".into(), "counter".into())];
         assert!(buffer_addr >= 0x2000_4000);
         assert!(counter_addr > buffer_addr, "counter should be after buffer (alphabetical order)");
-        assert!(counter_addr + 4 <= BoardGeneration::XR.mcu_family_from_board_gen().sram_end());
+        assert!(counter_addr + 4 <= BoardGeneration::XR.mcu_family().sram_end());
     }
 
     #[test]

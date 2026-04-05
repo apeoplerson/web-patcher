@@ -14,6 +14,22 @@ pub fn sha1_hash(data: &[u8]) -> [u8; 20] {
     hasher.finalize().into()
 }
 
+/// Number of leading bytes used for partial-hash identification.
+///
+/// This covers the Cortex-M vector table (initial SP + exception/interrupt
+/// handler addresses) which is unique per firmware/bootloader build but is
+/// never modified by patches.  512 bytes (128 vector entries × 4 bytes)
+/// sits comfortably below the lowest known patch offset.
+pub const PARTIAL_HASH_SIZE: usize = 0x200;
+
+/// Computes the partial identification hash for a firmware or bootloader
+/// buffer.
+///
+/// Returns `None` if the buffer is shorter than [`PARTIAL_HASH_SIZE`].
+pub fn partial_hash(data: &[u8]) -> Option<[u8; 20]> {
+    Some(sha1_hash(data.get(..PARTIAL_HASH_SIZE)?))
+}
+
 /// Decodes a hex string into a `[u8; 20]` SHA-1 hash.
 ///
 /// Panics with a descriptive message on invalid input — this is only
