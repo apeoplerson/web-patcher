@@ -138,9 +138,7 @@ fn show_content(app: &mut PatcherApp, ui: &mut egui::Ui) {
                     egui::RichText::new(
                         "This firmware has been modified. Even with all patches \
                          disabled, it will not be identical to the original — \
-                         padding, IV, and RSA signature cannot be restored. It \
-                         will not pass stock bootloader integrity checks unless \
-                         the bootloader is also patched.",
+                         original padding, IV, and/or RSA signature cannot be restored.",
                     )
                     .weak()
                     .size(11.5),
