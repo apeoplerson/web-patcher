@@ -3,8 +3,9 @@ use std::time::Duration;
 use owtk_core::backup::detect_and_parse_backup;
 use owtk_core::board::BoardGeneration;
 use owtk_core::bootloader::{IdentifiedBootloader, identify_bootloader};
-use owtk_core::crypto::extract_keys_from_dump;
-use owtk_core::firmware::{FirmwareState, identify_firmware};
+use owtk_core::crypto::cipher::{decrypt_firmware, firmware_payload};
+use owtk_core::crypto::{CryptoKey, extract_keys_from_dump, sha1_hash};
+use owtk_core::firmware::{FirmwareState, IdentifiedFirmware, identify_firmware};
 
 use super::{MobileView, PatcherApp};
 
@@ -107,6 +108,71 @@ impl PatcherApp {
         self.patch_entries = None;
         self.mobile_view = MobileView::Firmware;
         self.save_format_prompt = None;
+
+        // Auto-decrypt when possible and patches exist for this firmware.
+        self.try_auto_decrypt();
+    }
+
+    /// Automatically decrypts the loaded firmware if it is encrypted,
+    /// a matching key is available, and patches exist for it.
+    fn try_auto_decrypt(&mut self) {
+        let Some(id) = &self.firmware_identity else {
+            return;
+        };
+        if !id.is_encrypted() {
+            return;
+        }
+
+        let Some(key) = self.crypto_keys.as_deref().and_then(|keys| CryptoKey::find_by_identifier(keys, &id.effective_crypto)) else {
+            return;
+        };
+
+        let fw_data = self.firmware.as_ref().expect("firmware is loaded");
+        let was_exact_match = id.exact_match;
+        let expected_decrypted_hash = id.descriptor.decrypted_hash;
+        let crypto_method = id.crypto_method();
+        let effective_crypto = id.effective_crypto;
+        let descriptor = id.descriptor;
+
+        match decrypt_firmware(fw_data, &key) {
+            Ok(decrypted) => {
+                let hash_ok = if was_exact_match {
+                    if let Some(expected) = expected_decrypted_hash {
+                        let payload = firmware_payload(&decrypted, crypto_method, FirmwareState::Decrypted);
+                        sha1_hash(payload) == expected
+                    } else {
+                        true
+                    }
+                } else {
+                    true
+                };
+
+                self.firmware = Some(decrypted);
+                self.firmware_identity = Some(IdentifiedFirmware {
+                    descriptor,
+                    state: FirmwareState::Decrypted,
+                    exact_match: was_exact_match,
+                    effective_crypto,
+                });
+                self.patch_entries = None;
+
+                if hash_ok {
+                    let msg = if was_exact_match {
+                        "Firmware decrypted automatically (hash verified)"
+                    } else {
+                        "Firmware decrypted automatically (modified firmware)"
+                    };
+                    self.toasts.success(msg).duration(Some(Duration::from_secs(4)));
+                } else {
+                    self.toasts
+                        .warning("Firmware decrypted automatically but hash mismatch — result may be incorrect")
+                        .duration(Some(Duration::from_secs(6)));
+                }
+            }
+            Err(e) => {
+                self.toasts.error(format!("Auto-decryption failed: {e}")).duration(Some(Duration::from_secs(5)));
+            }
+        }
     }
 
     fn handle_bootloader_loaded(&mut self, bytes: Vec<u8>) {
